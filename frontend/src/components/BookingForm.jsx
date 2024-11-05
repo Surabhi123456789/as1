@@ -1,3 +1,4 @@
+// BookingForm.jsx
 import { useState, useEffect } from 'react';
 import { fetchRoomTypes, createBooking } from '../services/api';
 
@@ -23,12 +24,10 @@ const BookingForm = () => {
         // Fetch room types from the backend
         const fetchData = async () => {
             try {
-                const response = await fetchRoomTypes();
-                console.log(response);
-                setRoomTypes(response.data); // Ensure response.data is the correct format
+                const data = await fetchRoomTypes();
+                setRoomTypes(data); // Set roomTypes with the fetched data
             } catch (error) {
                 console.error("Error fetching room types:", error);
-                // You may want to set roomTypes to an empty array or handle this error differently
             }
         };
 
@@ -40,13 +39,24 @@ const BookingForm = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Submit booking data to the backend
-        createBooking(formData)
-            .then(() => alert('Booking successful!'))
-            .catch((error) => console.error(error));
+//     const handleSubmit = (e) => {
+//     e.preventDefault();
+//     console.log("Booking data being sent:", formData); // Log data before sending
+
+//     createBooking(formData)
+//         .then(() => alert('Booking successful!'))
+//         .catch((error) => console.error("Error during booking submission:", error));
+// };
+   const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Booking data being sent:", formData); // Log data before sending
+
+    createBooking(formData)
+        .then(() => alert('Booking successful!'))
+        .catch((error) => console.error("Error during booking submission:", error));
     };
+
+
 
     return (
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-lg max-w-md mx-auto">
@@ -67,7 +77,7 @@ const BookingForm = () => {
                 </select>
 
                 <input type="text" name="idNumber" placeholder="ID Number" onChange={handleChange} required className="border p-2 rounded w-full" />
-                
+
                 <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
                 <input type="date" name="dateOfBirth" onChange={handleChange} required className="border p-2 rounded w-full" />
 

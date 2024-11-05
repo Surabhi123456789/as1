@@ -1,3 +1,4 @@
+// BookingPage.jsx
 import BookingForm from '../components/BookingForm';
 
 const BookingPage = () => {

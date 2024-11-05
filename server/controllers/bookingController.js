@@ -1,4 +1,3 @@
-// controllers/bookingController.js
 const BookingModel = require('../models/bookingModel');
 
 const BookingController = {
@@ -17,8 +16,13 @@ const BookingController = {
             const { guestData, bookingData } = req.body;
             console.log("Booking data received:", req.body);
 
+            // Check if guestData and bookingData are provided
+            if (!guestData || !bookingData) {
+                return res.status(400).json({ message: "Invalid data: guestData and bookingData are required." });
+            }
+
             const result = await BookingModel.createBooking(guestData, bookingData);
-            res.json(result);
+            res.status(201).json(result); // Send 201 status for created resource
         } catch (error) {
             console.error("Error in createBooking:", error.message);
             res.status(500).json({ message: "Error creating booking", error: error.message });
